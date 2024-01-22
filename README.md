@@ -11,7 +11,13 @@ For the purposes of this project, it can be regarded as a React project.
 
 ## Getting Started
 
-First, run the development server:
+First, install the dependencies (node modules) by running:
+```bash
+npm install
+```
+in the folder containing `package.json`.
+
+To run the development server:
 
 ```bash
 npm run dev
@@ -20,6 +26,8 @@ npm run dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 The main file can be found in `src/app/page.tsx`.
+This makes a call to our api `api/routes.ts` which calls the OpenAI api.
+We'll do our "logic" in the api and use the components for the UI only.
 
 ## Learn More
 
