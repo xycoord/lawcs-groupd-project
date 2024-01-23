@@ -33,7 +33,7 @@ export default function Home() {
     //response api call...
     const output = await callGetResponse();
     
-    console.log("OpenAI replied...", output.content);
+    console.log("OpenAI replied... ", output.content);
 
     setMessages((prevMessages) => [...prevMessages, output]);
     setIsLoading(false);
