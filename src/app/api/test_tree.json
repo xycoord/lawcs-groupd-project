@@ -1,0 +1,14 @@
+[
+    {"prompt": "Is $letter$ the 10th letter of the alphabet?",
+     "yes": 2, 
+     "no": 1
+    },
+    {"prompt": "Is the sky $colour$?",
+     "yes": -1, 
+     "no": -1
+    },
+    {"prompt": "Is the earth flat?",
+     "yes": -1, 
+     "no": -1 
+    }
+]

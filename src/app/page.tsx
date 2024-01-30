@@ -31,11 +31,11 @@ export default function Home() {
     console.log("Calling OpenAI...");
 
     //response api call...
-    const output = await callGetResponse();
+    const response = await callGetResponse();
     
-    console.log("OpenAI replied...", output.content);
+    // console.log("Choice", response.result);
 
-    setMessages((prevMessages) => [...prevMessages, output]);
+    // setMessages((prevMessages) => [...prevMessages, response.explanation]);
     setIsLoading(false);
   }
 
@@ -51,8 +51,7 @@ export default function Home() {
 
     //process response
     const data = await response.json();
-    const { output } = data;
-    return output;
+    return data;
   };
 
   const Submit = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
