@@ -1,0 +1,30 @@
+{
+    "7.1":{
+        "title": "Art. 7.1",
+        "subtitle": "Demonstration",
+        "green":"It is basically compliant with Art.7.1.",
+        "yellow":"It needs further check. Compliance cannot be determined because the document makes reference to external policies or documents for details on consent without directly stating consent is the basis for processing.",
+        "red":"Not compliant. Consent is not mentioned as a basis for processing data."
+    },
+    "7.2":{
+        "title": "Art. 7.2",
+        "subtitle": "Distinguishability and transparency ",
+        "green":"It is basically compliant with Art.7.2.",
+        "yellow":"It needs to be combined with the banners, and cookies option of the web page to see if consent has been given for each specific purpose of use.",
+        "red":"Not compliant. The data subject’s consent should be freely given, specific, informed, and unambiguous. However, the 'consent' defined by the document(s) can be not specific, well-informed and ambiguous."
+    },
+    "7.3":{
+        "title": "Art. 7.3",
+        "subtitle": "Withdrawal of consent",
+        "green":"It is basically compliant with Art.7.3.",
+        "yellow":"",
+        "red":"Not compliant. The data subject shall have the right to withdraw his or her consent at any time and be informed before giving consent. However, the test document does not clearly state the right to withdraw."
+    },
+    "7.4":{
+        "title": "Art. 7.4",
+        "subtitle": "“Freely given” and conditional consent",
+        "green":"It is basically compliant with Art.7.4.",
+        "yellow":"The controller is a public authority, and it is therefore unlikely that consent was freely given in all the circumstances of that specific situation.",
+        "red":"Not compliant. The ‘consent’ of the data subject should be freely given, specific, informed and unambiguous. However, the 'consent' defined by the document(s) is(are) not fulfill the requirement of 'freely given'."
+    }
+}

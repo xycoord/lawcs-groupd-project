@@ -2,25 +2,10 @@
 
 import { useState } from "react";
 
-import Stack from '@mui/material/Stack';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import { Box, Container } from "@mui/material";
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import SmartToyIcon from '@mui/icons-material/SmartToy';
-import TextField from '@mui/material/TextField';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Button from '@mui/material/Button';
-import FormLabel from '@mui/material/FormLabel';
+import { Box } from "@mui/material";
 
-import CustomAppBar from "./components/app_bar";
-import SumbissionPage from "./submission_page";
-import AnalysisPage from "./analysis/analysis_page";
-import { useRouter } from 'next/navigation'
+import CustomAppBar from "../components/app_bar";
+import AnalysisPage from "./analysis_page";
 
 
 export default function Home() {
@@ -81,13 +66,11 @@ export default function Home() {
     }
   };
 
-  const router = useRouter()
-
   return (
     <main>
       <CustomAppBar/> 
       <Box sx={{ m: 2 }}>
-        <SumbissionPage onSubmit={()=> router.push('/analysis')}/>
+        <AnalysisPage/>
       </Box>
     </main>
   );
