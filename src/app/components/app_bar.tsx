@@ -1,17 +1,8 @@
-import Stack from '@mui/material/Stack';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import { Box, Container } from "@mui/material";
+import { Container } from "@mui/material";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
-import TextField from '@mui/material/TextField';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Button from '@mui/material/Button';
-import FormLabel from '@mui/material/FormLabel';
 
 export default function CustomAppBar() {
   return (
@@ -34,7 +25,7 @@ export default function CustomAppBar() {
               textDecoration: 'none',
             }}
           >
-            GDPRobot
+            GDPRobot (alpha)
           </Typography>      
         </Toolbar>
         </Container>

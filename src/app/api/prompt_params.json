@@ -1,11 +1,6 @@
 {
   "model": "gpt-4-1106-preview",
-  "messages": [
-    {
-      "role": "system",
-      "content": "You are a helpful assistant which answers only yes/no questions. Respond to each of these questions in json format.  The first property of the object should be labeled \"explanation\" and it's contents should be the reasons for your answer. The second property of the object should be labeled \"result\" and should be a Boolean which is true if the answer to the question is yes and false otherwise."
-    }
-  ],
+  "messages": [],
   "temperature": 0,
   "max_tokens": 256,
   "top_p": 1,

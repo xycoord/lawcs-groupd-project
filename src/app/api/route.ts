@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
-import tree from './test_tree.json'
 import init_params from './prompt_params.json';
-import next from "next";
+
+import art71 from "./trees/Art_7_1.json"
+import art72 from "./trees/Art_7_2.json"
 
 type prompt = {
   model: string;
@@ -24,37 +25,37 @@ const gptToJSON = (textResponse: string) => {
   return JSON.parse(textResponse.slice(8,-3));
 }
 
-const variableMap = new Map();
-variableMap.set("$colour$", "blue");
-variableMap.set("$letter$", "j");
-
-const fillPattern = (pattern:string) => {
-  while(/\$[\s\S]*\$/.test(pattern)){
-    const key = /\$[\s\S]*\$/.exec(pattern)![0];
-    pattern = pattern.replace(key, variableMap.get(key));
-  }
-  return pattern;
-}
-
 export async function POST(req: Request, res: NextResponse) {
-  // const body = await req.json();
+  const body = await req.json();
 
-  console.log(tree);
+  const format = "\n Respond to each of these questions in json format.  The first property of the object should be labeled \"explanation\" and it's contents should be the reasons for your answer. The second property of the object should be labeled \"level\" and should be a Number which is -1 if your answer is yes, -3 if it is no, and -2 if your answer is unsure."
+
+  const article = body.art == "7.1" ? art71 : art72 
+  const clauses = body.clauses.map((clause:{title: string, content: string}) => clause.content)
+
+  let explanation = ""
+
   let index = 0;
+  //traverse tree
   while (index >= 0){
-    const node = tree[index];
+    const node = article[index];
     const params = init_params as prompt; 
-    const question = fillPattern(node.prompt);
+    params.messages.push(
+      { role: "system",
+        content: node.prompt + format });
     params.messages.push(
       { role: "user",
-        content: question });
+        content: clauses.join("\n") }
+    )
+    // console.log("messages", params.messages)
     const completion = await openai.chat.completions.create(params);
     const response = completion.choices[0].message.content || "{}";
     const jsonResponse = gptToJSON(response);
-    console.log(question, jsonResponse);
-    index = jsonResponse.result ? node.yes : node.no;
+    console.log( jsonResponse);
+    explanation = jsonResponse.explanation || ""
+    index = (jsonResponse.level == -1) ? node.yes : ((jsonResponse.level == -2) ? node.Unsure : node.no) ;
   }
   console.log("done!")
    
-  return NextResponse.json({}, { status: 200 });
+  return NextResponse.json({explanation:explanation, level:index}, { status: 200 });
 }
