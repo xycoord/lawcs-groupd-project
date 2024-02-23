@@ -59,7 +59,7 @@ export default function SumbissionPage(props:{onSubmit: () => void}) {
           id="filled-multiline-static"
           label="Your Data Protection Policy"
           multiline
-          rows={8}
+          rows={6}
           defaultValue=""
           variant="filled"
         />

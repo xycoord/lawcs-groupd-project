@@ -1,30 +1,30 @@
 {
-    "7.1":{
+    "7.1": {
         "title": "Art. 7.1",
         "subtitle": "Demonstration",
-        "green":"It is basically compliant with Art.7.1.",
-        "yellow":"It needs further check. Compliance cannot be determined because the document makes reference to external policies or documents for details on consent without directly stating consent is the basis for processing.",
-        "red":"Not compliant. Consent is not mentioned as a basis for processing data."
+        "green": "Awesome! Your document should be compliant with Art.7.1 requirements.",
+        "yellow": "Please input the referenced document. Compliance cannot be determined because the document makes reference to external policies or documents for details on consent, without directly stating consent is the basis for processing.",
+        "red": "Not compliant. Consent cannot be not demonstrated properly as a basis for processing. You (Data Controller) have the burden of proving the existence of valid conseent. This is contrary to the principle of accountability."
     },
-    "7.2":{
+    "7.2": {
         "title": "Art. 7.2",
         "subtitle": "Distinguishability and transparency ",
-        "green":"It is basically compliant with Art.7.2.",
-        "yellow":"It needs to be combined with the banners, and cookies option of the web page to see if consent has been given for each specific purpose of use.",
-        "red":"Not compliant. The data subject’s consent should be freely given, specific, informed, and unambiguous. However, the 'consent' defined by the document(s) can be not specific, well-informed and ambiguous."
+        "green": "Awesome! Your document should be compliant with Art.7.2 requirements.",
+        "yellow": "Consent needs to be clearly distinguishable from other matters, in an intelligible, easily accessible form, using plain language, particularly for each consent for specific purposes of processing.",
+        "red": "Not compliant. Consent sought is not clearly distinguishable from other matters, in an intelligible, easily accessbile form, using plain language, nor well-informed. This is contrary to the principle of transparency."
     },
-    "7.3":{
+    "7.3": {
         "title": "Art. 7.3",
         "subtitle": "Withdrawal of consent",
-        "green":"It is basically compliant with Art.7.3.",
-        "yellow":"",
-        "red":"Not compliant. The data subject shall have the right to withdraw his or her consent at any time and be informed before giving consent. However, the test document does not clearly state the right to withdraw."
+        "green": "Awesome! Your document should be compliant with Art.7.3 requirements.",
+        "yellow": "",
+        "red": "Not compliant. There is no proper right to withdraw the consent, there is not information on such right nor can consent be withdrawn as easily as giving it. This is contrary to the statutory right of withdrawal of consent."
     },
-    "7.4":{
+    "7.4": {
         "title": "Art. 7.4",
         "subtitle": "“Freely given” and conditional consent",
-        "green":"It is basically compliant with Art.7.4.",
-        "yellow":"The controller is a public authority, and it is therefore unlikely that consent was freely given in all the circumstances of that specific situation.",
-        "red":"Not compliant. The ‘consent’ of the data subject should be freely given, specific, informed and unambiguous. However, the 'consent' defined by the document(s) is(are) not fulfill the requirement of 'freely given'."
+        "green": "Awesome! Your document should be compliant with  Art.7.4 requirements.",
+        "yellow": "The controller is a public authority, which is considered as a clear power imbalance between the parties. Therefore, it is unlikely that consent was freely given.",
+        "red": "Not compliant. The consent is conditional on performance. This is contrary to requirement that consent must be freely given."
     }
 }

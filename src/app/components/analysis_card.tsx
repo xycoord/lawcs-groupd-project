@@ -52,28 +52,29 @@ export default function AnalysisCard(
         avatar={<ClassificationIcon level={props.level}/>}
         title={props.art_info.title}
         subheader={props.art_info.subtitle}
-
-        sx={{pb:0}}
+        sx={props.explaination != "" ? { pb:0 } : null}
       />
-      <ClassificationInfo 
-        level={props.level}
-        green={props.art_info.green}
-        yellow={props.art_info.yellow}
-        red={props.art_info.red}
-      />
-      <CardActions disableSpacing sx={{pt: 0, pb:0.5 }}>
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="explain"
-        >
-          <Typography variant="button">
-            Explain 
-          </Typography>
-          <ExpandMoreIcon />
-        </ExpandMore>
-      </CardActions>
+      {props.explaination != "" ? <React.Fragment>
+        <ClassificationInfo 
+          level={props.level}
+          green={props.art_info.green}
+          yellow={props.art_info.yellow}
+          red={props.art_info.red}
+        />
+        <CardActions disableSpacing sx={{pt: 0, pb:0.5 }}>
+          <ExpandMore
+            expand={expanded}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="explain"
+          >
+            <Typography variant="button">
+              Explain 
+            </Typography>
+            <ExpandMoreIcon />
+          </ExpandMore>
+        </CardActions> 
+      </React.Fragment>: null}
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent sx={{py:0}}>
           <Divider />

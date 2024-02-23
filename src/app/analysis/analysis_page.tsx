@@ -1,37 +1,87 @@
-import { Box, Button, Card, CardActions, CardContent, Container, Divider, IconButton, Stack, Typography } from "@mui/material";
+import { Box, Button, Card, CardActions, CardContent, Container, Divider, Grid, IconButton, Stack, Typography } from "@mui/material";
 import ClauseCard from "../components/clause_card";
 import AnalysisCard from "../components/analysis_card";
 import copy from "../copy/copy.json"
 import example_clauses from "../copy/example_clauses.json"
 import React from "react";
+import ClassificationIcon from "../components/classification_icon";
+import LoadingButton from '@mui/lab/LoadingButton';
+import { PlayArrow } from "@mui/icons-material";
+
+type clause = {
+  title: string;
+  content: string;
+};
+type call_body = {
+  art: string;
+  clauses: clause[];
+}
 
 export default function AnalysisPage() {
 
-  const [level, setLevel] = React.useState(0);
-  const [explanation, setExplanation] = React.useState("");
-  
-  const onPromptSend = async () => {
-    console.log("Calling OpenAI...");
-    //response api call...
-    const response = await callGetResponse();
-    setLevel(response.level)
-    setExplanation(response.explanation)
-    // console.log("Choice", response.result);
-  }
+  const [level, setLevel] = React.useState([0,0,0,0]);
+  const [global_level, setGlobalLevel] = React.useState(0);
+  const [explanation, setExplanation] = React.useState(["","","",""]);
+  const [processing, setProcessing] = React.useState(false);
 
-  const body = {
+  const body: call_body[] = [
+    {
     art: "7.1",
     clauses: example_clauses
+    },{
+    art: "7.2",
+    clauses: example_clauses
+    },{
+    art: "7.3",
+    clauses: example_clauses
+    },{
+    art: "7.4",
+    clauses: example_clauses
+    }
+  ]
+
+
+  const onPromptSend = async () => {
+    setProcessing(true)
+    const new_levels = 
+        level.map(x => x) 
+    const new_explanations = 
+        explanation.map(x => x) 
+
+    //response api call...
+    for (let i = 0; i < body.length; i++) {
+      console.log("i:", i);
+
+      new_levels[i] = 1
+
+      setLevel([...new_levels]);
+      
+      const response = await callGetResponse(body[i]);
+
+      console.log("i", response.level)
+
+      new_levels[i] = response.level
+      new_explanations[i] = response.explanation
+
+      setLevel([...new_levels]);
+      setExplanation([...new_explanations]);
+      setGlobalLevel(Math.min( ...new_levels))
+      console.log(new_levels)
+    }
+
+    setProcessing(false)
   }
 
-  const callGetResponse = async () => {
+  
+
+  const callGetResponse = async (cb: call_body) => {
     //make api request
     const response = await fetch("/api", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify(cb),
     });
 
     //process response
@@ -56,54 +106,58 @@ export default function AnalysisPage() {
 
   return (
     <Container maxWidth={false}>
-      <Stack
-        direction="row"
-        divider={<Divider orientation="vertical" flexItem />}
-        spacing={2}
-      >
-        <Box sx={{ flexGrow: 0, flexShrink: 1, flexBasis: "auto" }} maxWidth={"50%"}>
+      <Grid container spacing={2} columns={51}>
+        <Grid item xs={25}>
           <Typography variant="h4" gutterBottom>
             Selected Clauses
           </Typography>
           <Stack spacing={1}>
             {clause_cards} 
           </Stack>
-        </Box>
-        <Box sx={{ flexGrow: 0, flexShrink: 1, flexBasis: "auto" }} maxWidth={"50%"}>
-          <Typography variant="h4" gutterBottom>
-            Analysis
-          </Typography>
+        </Grid>
+          <Divider orientation="vertical" flexItem sx={{ ml:"15px" ,mr: "-1px" }} />
+        <Grid item xs={25}>
+          <Stack direction="row" spacing={2} sx={{pb:1.5}} justifyContent={"space-between"}>
+            <Stack direction="row" spacing={2}>
+              <ClassificationIcon level={global_level}/>
+              <Typography variant="h4" gutterBottom>
+                Analysis
+              </Typography>
+            </Stack>
+            <LoadingButton variant="contained"
+              onClick={Submit}
+              loading={processing}
+              loadingPosition="end"
+              endIcon={<PlayArrow />}
+              color="secondary"
+            >
+              Run 
+            </LoadingButton>
+          </Stack>
           <Stack spacing={1} >
             <AnalysisCard
               art_info={copy["7.1"]}
-              explaination={explanation}
-              level={level}
+              explaination={explanation[0]}
+              level={level[0]}
             />
             <AnalysisCard
               art_info={copy["7.2"]}
-              explaination={explaination}
-              level={0}
+              explaination={explanation[1]}
+              level={level[1]}
             />
             <AnalysisCard
               art_info={copy["7.3"]}
-              explaination={explaination}
-              level={0}
+              explaination={explanation[2]}
+              level={level[2]}
             />
             <AnalysisCard
               art_info={copy["7.4"]}
-              explaination={explaination}
-              level={0}
+              explaination={explanation[3]}
+              level={level[3]}
             />
           </Stack>
-        </Box>
-      </Stack>
-      <Box sx={{ m: 2 }}>
-        <Button variant="contained"
-          onClick={Submit}
-        >
-          Submit 
-        </Button>
-      </Box> 
+        </Grid>
+      </Grid>
     </Container>
   );
 }

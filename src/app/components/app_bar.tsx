@@ -25,7 +25,7 @@ export default function CustomAppBar() {
               textDecoration: 'none',
             }}
           >
-            GDPRobot (alpha)
+            PrivacyPilot (alpha)
           </Typography>      
         </Toolbar>
         </Container>

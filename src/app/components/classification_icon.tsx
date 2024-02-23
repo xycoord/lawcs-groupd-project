@@ -1,5 +1,5 @@
-import { Check, Flag, HourglassEmpty, PriorityHigh } from "@mui/icons-material";
-import { Avatar } from "@mui/material";
+import { Check, Flag, HourglassEmpty, Padding, PriorityHigh, SmartToy } from "@mui/icons-material";
+import { Avatar, CircularProgress } from "@mui/material";
 import { amber, green, grey, red } from "@mui/material/colors";
 
 export default function ClassificationIcon(props:{level: number}) {
@@ -18,9 +18,14 @@ export default function ClassificationIcon(props:{level: number}) {
           <Flag/> 
         </Avatar>
     );
+    if (props.level==1) return (
+        <Avatar sx={{ bgcolor: grey[500] }} aria-label="recipe">
+          <CircularProgress sx={{p:1}}/>
+        </Avatar>
+    );
     return (
         <Avatar sx={{ bgcolor: grey[500] }} aria-label="recipe">
-          <HourglassEmpty/> 
+          <SmartToy/> 
         </Avatar>
     );
 

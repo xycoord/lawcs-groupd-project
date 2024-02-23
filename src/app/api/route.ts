@@ -4,6 +4,8 @@ import init_params from './prompt_params.json';
 
 import art71 from "./trees/Art_7_1.json"
 import art72 from "./trees/Art_7_2.json"
+import art73 from "./trees/Art_7_3.json"
+import art74 from "./trees/Art_7_4.json"
 
 type prompt = {
   model: string;
@@ -30,7 +32,11 @@ export async function POST(req: Request, res: NextResponse) {
 
   const format = "\n Respond to each of these questions in json format.  The first property of the object should be labeled \"explanation\" and it's contents should be the reasons for your answer. The second property of the object should be labeled \"level\" and should be a Number which is -1 if your answer is yes, -3 if it is no, and -2 if your answer is unsure."
 
-  const article = body.art == "7.1" ? art71 : art72 
+  const article = 
+    body.art == "7.1" ? art71 : 
+    body.art == "7.2" ? art72 : 
+    body.art == "7.3" ? art73 : 
+    art74 
   const clauses = body.clauses.map((clause:{title: string, content: string}) => clause.content)
 
   let explanation = ""
@@ -47,15 +53,13 @@ export async function POST(req: Request, res: NextResponse) {
       { role: "user",
         content: clauses.join("\n") }
     )
-    // console.log("messages", params.messages)
+
     const completion = await openai.chat.completions.create(params);
     const response = completion.choices[0].message.content || "{}";
     const jsonResponse = gptToJSON(response);
-    console.log( jsonResponse);
     explanation = jsonResponse.explanation || ""
-    index = (jsonResponse.level == -1) ? node.yes : ((jsonResponse.level == -2) ? node.Unsure : node.no) ;
+    index = (jsonResponse.level == -1) ? node.yes : ((jsonResponse.level == -2) ? node.unsure : node.no) ;
   }
-  console.log("done!")
    
   return NextResponse.json({explanation:explanation, level:index}, { status: 200 });
 }

@@ -22,11 +22,16 @@ export default function ClassificationInfo(props:{level: number, green: string, 
         </Typography>
       </CardContent> 
     );
-    return (
+    if (props.level==1) return (
       <CardContent sx={{pb:0}}>
         <Typography variant="body2" >
           Processing...
         </Typography>
       </CardContent>
     );
+    return (
+      <CardContent sx={{pb:0}}>
+      </CardContent>
+    );
+
 }
