@@ -12,20 +12,61 @@ import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import FormLabel from '@mui/material/FormLabel';
 import React from 'react';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { styled } from '@mui/material/styles';
+import axios from 'axios';
+
 
 
 export default function SumbissionPage(props:{onSubmit: () => void}) {
 
   const [open, setOpen] = React.useState(false);
+  const [processedPDF, setProcessedPDF] = React.useState({})
+  const handleFileUpload = async (event: any) => {
 
+    const file = event.target.files[0];
+  
+    const formData = new FormData();
+  
+    formData.append('file', file);
+    console.log(formData)
+   await axios.post('http://localhost:5000/upload-pdf', formData)
+  
+      .then(response => {
+  
+        console.log(response)
+  
+      })
+  
+      .catch(error => {
+  
+        console.error(error);
+  
+      });
+  
+  };
+  
 
   const [checked, setChecked] = React.useState(false);
   const [error, setError] = React.useState(false);
+  const [file, setFile] = React.useState<File | null>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
     if(event.target.checked) setError(false)
   };
+  const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+  });
+  
 
 
   const onSubmit = () => {
@@ -55,14 +96,32 @@ export default function SumbissionPage(props:{onSubmit: () => void}) {
           <FormControlLabel disabled control={<Checkbox color='secondary'/>} label="Article 17" />
           <FormControlLabel disabled control={<Checkbox color='secondary'/>} label="Check All" />
         </FormGroup>
-        <TextField
+
+              <Button
+            component="label"
+            role={undefined}
+            variant="contained"
+            tabIndex={-1}
+            startIcon={<CloudUploadIcon />}
+
+          >
+            Upload file
+            <VisuallyHiddenInput 
+            type="file"
+            onChange={(e) => {
+              e.target.files != null ? handleFileUpload(e): null
+            }}
+            
+             />
+          </Button>
+              {/*<TextField
           id="filled-multiline-static"
           label="Your Data Protection Policy"
           multiline
           rows={6}
           defaultValue=""
           variant="filled"
-        />
+  />*/} 
         <FormControl error={error}>
           <FormGroup>
             <FormControlLabel control={
