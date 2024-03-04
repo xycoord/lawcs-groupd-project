@@ -15,34 +15,44 @@ import React from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
 import axios from 'axios';
-
+import { useEffect } from 'react';
+import { useData } from './DataContext';
 
 
 export default function SumbissionPage(props:{onSubmit: () => void}) {
-
+  const { setData } = useData();
   const [open, setOpen] = React.useState(false);
   const [processedPDF, setProcessedPDF] = React.useState({})
   const handleFileUpload = async (event: any) => {
 
     const file = event.target.files[0];
-  
-    const formData = new FormData();
-  
-    formData.append('file', file);
-    console.log(formData)
-   await axios.post('http://localhost:5000/upload-pdf', formData)
-  
-      .then(response => {
-  
-        console.log(response)
-  
-      })
-  
-      .catch(error => {
-  
-        console.error(error);
-  
-      });
+    if(file){
+    
+      const formData = new FormData();
+    
+      formData.append('file', file);
+      console.log(formData)
+      
+      await axios.post('http://localhost:5000/upload-pdf', formData)
+    
+        .then(response => {
+          setProcessedPDF(response.data)
+          setData(response.data)
+          localStorage.setItem('myData', JSON.stringify(response.data));
+          setOpen(true);
+          setTimeout(props.onSubmit, 1000);
+    
+        })
+    
+        .catch(error => {
+    
+          console.error(error);
+    
+        });
+      }else{
+        console.log("No file selected!")
+        return null
+      }
   
   };
   
@@ -68,6 +78,12 @@ export default function SumbissionPage(props:{onSubmit: () => void}) {
   });
   
 
+  useEffect(() => {
+    if(processedPDF && Object.keys(processedPDF).length !== 0){
+      
+      console.log(processedPDF)
+    }
+  }, [processedPDF])
 
   const onSubmit = () => {
     if (!checked) {

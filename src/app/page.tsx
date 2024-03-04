@@ -21,7 +21,7 @@ import CustomAppBar from "./components/app_bar";
 import SumbissionPage from "./submission_page";
 import AnalysisPage from "./analysis/analysis_page";
 import { useRouter } from 'next/navigation'
-
+import { DataProvider } from './DataContext';
 
 export default function Home() {
 
@@ -84,11 +84,16 @@ export default function Home() {
   const router = useRouter()
 
   return (
-    <main>
-      <CustomAppBar/> 
-      <Box sx={{ m: 2 }}>
-        <SumbissionPage onSubmit={()=> router.push('/analysis')}/>
-      </Box>
-    </main>
+    <DataProvider>
+      <main>
+        
+        <CustomAppBar/> 
+        <Box sx={{ m: 2 }}>
+          <SumbissionPage onSubmit={()=> 
+          router.push('analysis')
+          }/>
+        </Box>
+      </main>
+    </DataProvider>
   );
 }
