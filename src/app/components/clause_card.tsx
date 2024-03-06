@@ -5,9 +5,9 @@ export default function ClauseCard(props:{ title: string, content: string }) {
   return (
     <Card variant="outlined">
       <CardContent sx={{ pb: 0 }}>
-        <Typography variant="body1" gutterBottom style={{"userSelect": "none"}}>
+        {/* <Typography variant="body1" gutterBottom style={{"userSelect": "none"}}>
            {props.title} 
-        </Typography>
+        </Typography> */}
         <Typography variant="body2" color="text.secondary">
             {props.content}
         </Typography>

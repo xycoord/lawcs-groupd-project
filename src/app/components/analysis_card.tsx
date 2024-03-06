@@ -9,7 +9,7 @@ import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { PriorityHigh } from '@mui/icons-material';
-import { Box, Chip, Divider } from '@mui/material';
+import { Box, Button, CardActionArea, Chip, Divider } from '@mui/material';
 import ClassificationIcon from './classification_icon';
 import ClassificationInfo from './classification_info';
 
@@ -37,7 +37,9 @@ export default function AnalysisCard(
             red: string 
           }
           explaination: string,
-          level: number
+          level: number,
+          selected: boolean,
+          onSelectArt: (art_title: string) => void,
         }
 ) {
   const [expanded, setExpanded] = React.useState(false);
@@ -47,13 +49,19 @@ export default function AnalysisCard(
   };
 
   return (
-    <Card variant='outlined'>
+    <Card variant={props.selected ? 'elevation' : 'outlined'}
+          raised={props.selected}
+    >
+      <CardActionArea
+        onClick={()=> props.onSelectArt(props.art_info.title)}
+      >
       <CardHeader
         avatar={<ClassificationIcon level={props.level}/>}
         title={props.art_info.title}
         subheader={props.art_info.subtitle}
         sx={props.explaination != "" ? { pb:0 } : null}
       />
+      </CardActionArea>
       {props.explaination != "" ? <React.Fragment>
         <ClassificationInfo 
           level={props.level}
