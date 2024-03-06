@@ -19,6 +19,7 @@ type prompt = {
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
+  organization: 'org-6Jmfcwecjj5L2mUdiCrNzvJX',
 });
 
 const gptToJSON = (textResponse: string) => {

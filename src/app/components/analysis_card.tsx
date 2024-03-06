@@ -82,7 +82,7 @@ export default function AnalysisCard(
             {props.explaination}
           </Typography>
           <Box sx={{ pt: 1 }} >
-            <Chip icon={<PriorityHigh />} label="This explaination is AI generated. Use responisbly" color="error" variant='outlined' size='small' sx={{p:0.5}}/>
+            <Chip icon={<PriorityHigh />} label="This explanation is AI generated. Use responisbly" color="error" variant='outlined' size='small' sx={{p:0.5}}/>
           </Box>
         </CardContent>
       </Collapse>

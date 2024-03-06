@@ -17,20 +17,23 @@ import { styled } from '@mui/material/styles';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useData } from './DataContext';
-
+import LinearProgress from '@mui/material/LinearProgress';
+import FilePresentIcon from '@mui/icons-material/FilePresent';
+import InputLabel from '@mui/material/InputLabel';
 
 export default function SumbissionPage(props:{onSubmit: () => void}) {
   const { setData } = useData();
   const [open, setOpen] = React.useState(false);
+  const [fileUploaded, setFileUploaded] = React.useState(false);
+  const [uploadedFile, setUploadedFile] = React.useState(null);
   const [processedPDF, setProcessedPDF] = React.useState({})
-  const handleFileUpload = async (event: any) => {
-
-    const file = event.target.files[0];
-    if(file){
+  const [fileError, setFileError] = React.useState(false)
+  const sendToServer = async () => {
+    if(uploadedFile){
     
       const formData = new FormData();
     
-      formData.append('file', file);
+      formData.append('file', uploadedFile);
       console.log(formData)
       
       await axios.post('http://localhost:5000/upload-pdf', formData)
@@ -47,8 +50,46 @@ export default function SumbissionPage(props:{onSubmit: () => void}) {
         .catch(error => {
     
           console.error(error);
+          setOpen(false);
+          setError(true)
     
         });
+      }else{
+        console.log("No file selected!")
+        setOpen(false)
+        setFileError(true)
+        return null
+      }
+  }
+  const handleFileUpload = async (event: any) => {
+
+    const file = event.target.files[0];
+    if(file){
+      setUploadedFile(file)
+      setFileUploaded(true) 
+      setFileError(false)
+    
+      // const formData = new FormData();
+    
+      // formData.append('file', file);
+      // console.log(formData)
+      
+      // await axios.post('http://localhost:5000/upload-pdf', formData)
+    
+      //   .then(response => {
+      //     setProcessedPDF(response.data)
+      //     setData(response.data)
+      //     localStorage.setItem('myData', JSON.stringify(response.data));
+      //     setOpen(true);
+      //     setTimeout(props.onSubmit, 1000);
+    
+      //   })
+    
+      //   .catch(error => {
+    
+      //     console.error(error);
+    
+      //   });
       }else{
         console.log("No file selected!")
         return null
@@ -91,7 +132,8 @@ export default function SumbissionPage(props:{onSubmit: () => void}) {
       return
     } 
     setOpen(true);
-    setTimeout(props.onSubmit, 5000);
+    sendToServer()
+    //setTimeout(props.onSubmit, 2000);
   }
 
   return (
@@ -121,7 +163,7 @@ export default function SumbissionPage(props:{onSubmit: () => void}) {
             startIcon={<CloudUploadIcon />}
 
           >
-            Upload file
+            Choose file
             <VisuallyHiddenInput 
             type="file"
             onChange={(e) => {
@@ -130,6 +172,10 @@ export default function SumbissionPage(props:{onSubmit: () => void}) {
             
              />
           </Button>
+          {fileUploaded && <InputLabel htmlFor="file-upload" sx={{pt: 1}} >
+            <FilePresentIcon /> {uploadedFile != null ? uploadedFile.name : "No file selected"}
+            </InputLabel>
+          }
               {/*<TextField
           id="filled-multiline-static"
           label="Your Data Protection Policy"
@@ -150,6 +196,8 @@ export default function SumbissionPage(props:{onSubmit: () => void}) {
               />} 
             label="I hereby consent to the use of any information inserted into this form to be used by the GDPRobot system." />
           </FormGroup>
+          {error && <FormHelperText>Consent is required</FormHelperText>}
+          {fileError && <FormHelperText>No file uploaded!</FormHelperText>}
         </FormControl>
         <Box>
           <Button variant="contained"
