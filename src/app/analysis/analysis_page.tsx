@@ -1,6 +1,6 @@
 "use client"
 
-import { Box, Button, Card, CardActions, CardContent, Container, Divider, Grid, IconButton, Stack, Typography } from "@mui/material";
+import { Box, Button, Card, CardActions, CardContent, Container, Divider, Grid, IconButton, Stack, Typography, selectClasses } from "@mui/material";
 import ClauseCard from "../components/clause_card";
 import AnalysisCard from "../components/analysis_card";
 import copy from "../copy/copy.json"
@@ -17,11 +17,12 @@ type clause = {
   representation: string[];
   text: string;
   top_words: string;
-  topic_id: number; 
+  topic_id: number;
+  tags: string[]; 
 };
 type call_body = {
   art: string;
-  clauses: clause[];
+  clauses: string[];
 }
 
 export default function AnalysisPage() {
@@ -33,6 +34,8 @@ export default function AnalysisPage() {
   const [clauseData, setClauseData] = React.useState({});
   const [selectedArt, setSelectedArt] = React.useState(copy["7.1"].title);
   const [clause_cards, setClauseCards] = React.useState([<React.Fragment/>]);
+  const [selectedClauses, setSelectedClauses] = React.useState([]);
+  const [allClauses, setAllClauses] = React.useState([]);
 
   useEffect(() => {
 
@@ -40,8 +43,30 @@ export default function AnalysisPage() {
 
   }, []);
 
+  //When clauseData loads, apply initial tags
   useEffect(() => {
     console.log(clauseData)
+    if(Object.keys(clauseData).length !== 0){
+
+      Object.values(clauseData).flat().map(
+        (clause: any) => {
+        let tags: any[] = []
+        clause.representation.map((word: string) => {
+          
+          for (let i = 0; i < art_keywords.length; i++) {
+            if(art_keywords[i].includes(word)){
+              tags.push(art_titles[i])
+            }
+          }
+        })
+        //Take only unique tags
+        tags = Array.from(new Set(tags));
+        clause.tags = tags
+      })
+    }
+    setAllClauses(Object.values(clauseData));
+    //makeInitialClauses()
+    //console.log(clauseData)
   }, [clauseData])
 
 
@@ -61,9 +86,20 @@ export default function AnalysisPage() {
     }
   ]
 
+  useEffect(() => {
+    console.log("Updating selected clauses")
+     //Add clauses to body
+     //console.log(selectedClauses)
+     for (let i = 0; i < body.length; i++) {
+      allClauses.map((c: clause) => console.log(c))
+
+      Object.values(body)[i].clauses = allClauses.flat().map((c: clause) => c.tags.includes(art_titles[i]) ? c.text : "").filter((c: string) => c !== "");
+    }
+  }, [allClauses])
 
   const onPromptSend = async () => {
     setProcessing(true)
+    console.log(body)
     const new_levels = 
         level.map(x => x) 
     const new_explanations = 
@@ -116,21 +152,42 @@ export default function AnalysisPage() {
   };
 
   const art_titles = ["Art. 7.1", "Art. 7.2", "Art. 7.3", "Art. 7.4"]
+  const art_keywords = [["consent", "basis", "privacy", "policy", "reason"],
+                        ["purpose", "processing", "duration", "usage", "cookie"],
+                        ["withdraw", "remove", "opt", "out", "technology"],
+                        ["introduction", "withdraw", "platform", "tiktok", "about"]]
+
 
   const updateClauseCards = (art_title:string) => {
-    const selected_clauses = 
-      Object.keys(clauseData).length === 0 ? [] : 
-      Object.values(clauseData).flat()
-      .filter((clause: any)=> 
-        art_titles[clause.topic_id - 1] == art_title
-      )
+    console.log("test")
+    // const selected_clauses : any = 
+    //   Object.keys(clauseData).length === 0 ? [] : 
+    //   Object.values(clauseData).flat()
+    //   .filter((clause: any)=> 
+    //     clause.representation.some((word: string) => (art_keywords[art_titles.indexOf(art_title)].includes(word)))
+    //   )
+    // setSelectedClauses(selected_clauses)
+    // console.log("selected",art_title,selected_clauses)
 
-    console.log("selected",art_title,selected_clauses)
 
-    const cc = selected_clauses.map((clause: any) => {
-        return <ClauseCard
+    
+    let onSelectClause = (clause_number: number) => {
+      let clauses_object : clause[] = allClauses.flat()
+      
+      clauses_object[clause_number].tags.includes(art_title) ?
+        clauses_object[clause_number].tags = clauses_object[clause_number].tags.filter((tag: string) => tag !== art_title) :
+        clauses_object[clause_number].tags.push(art_title)
+
+      setAllClauses([clauses_object])
+      updateClauseCards(art_title)
+    }
+    const cc = allClauses.flat().map((clause: any) => {
+        return <ClauseCard 
+                key={clause.number}
                 title={clause.number}
                 content={clause.text}
+                selected={clause.tags.includes(art_title)}
+                onSelectClause={onSelectClause}
               />
     });
     setClauseCards(cc)
@@ -173,6 +230,7 @@ export default function AnalysisPage() {
           </Stack>
           <Stack spacing={1} >
             <AnalysisCard
+              key={copy["7.1"].title}
               art_info={copy["7.1"]}
               explaination={explanation[0]}
               level={level[0]}
@@ -180,6 +238,7 @@ export default function AnalysisPage() {
               onSelectArt={onSelectArt}
             />
             <AnalysisCard
+             key={copy["7.2"].title}
               art_info={copy["7.2"]}
               explaination={explanation[1]}
               level={level[1]}
@@ -187,6 +246,7 @@ export default function AnalysisPage() {
               onSelectArt={onSelectArt}
             />
             <AnalysisCard
+             key={copy["7.3"].title}
               art_info={copy["7.3"]}
               explaination={explanation[2]}
               level={level[2]}
@@ -194,6 +254,7 @@ export default function AnalysisPage() {
               onSelectArt={onSelectArt}
             />
             <AnalysisCard
+             key={copy["7.4"].title}
               art_info={copy["7.4"]}
               explaination={explanation[3]}
               level={level[3]}

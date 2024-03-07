@@ -38,7 +38,7 @@ export async function POST(req: Request, res: NextResponse) {
     body.art == "7.2" ? art72 : 
     body.art == "7.3" ? art73 : 
     art74 
-  const clauses = body.clauses.map((clause:{title: string, content: string}) => clause.content)
+  const clauses = body.clauses //.map((clause:{title: string, content: string}) => clause.content)
 
   let explanation = ""
 

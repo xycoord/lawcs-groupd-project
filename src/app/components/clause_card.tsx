@@ -1,9 +1,13 @@
-import { Box, Card, CardActions, CardContent, CardHeader, Container, Divider, IconButton, Stack, Typography } from "@mui/material";
+import { Box, Card, CardActions, CardActionArea, CardContent, CardHeader, Container, Divider, IconButton, Stack, Typography } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 
-export default function ClauseCard(props:{ title: string, content: string }) {
+export default function ClauseCard(props:{ title: string, content: string, selected: boolean, onSelectClause: (clause_number: number) => void}) {
   return (
-    <Card variant="outlined">
+    <Card variant={props.selected ? 'elevation' : 'outlined'}
+    raised={props.selected}>
+      <CardActionArea
+        onClick={()=> props.onSelectClause(Number(props.title))}
+      >
       <CardContent sx={{ pb: 0 }}>
         {/* <Typography variant="body1" gutterBottom style={{"userSelect": "none"}}>
            {props.title} 
@@ -18,6 +22,7 @@ export default function ClauseCard(props:{ title: string, content: string }) {
 }
         </IconButton>
       </CardActions>
+      </CardActionArea>
     </Card>
   );
 }
