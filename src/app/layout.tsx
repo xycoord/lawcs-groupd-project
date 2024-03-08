@@ -9,7 +9,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 export const metadata: Metadata = {
-  title: 'GDPRobot',
+  title: 'PrivacyPilot',
   description: 'Check GDPR Compliance',
 }
 

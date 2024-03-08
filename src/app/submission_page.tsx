@@ -194,7 +194,7 @@ export default function SumbissionPage(props:{onSubmit: () => void}) {
                 inputProps={{ 'aria-label': 'controlled' }}
                 color='secondary'
               />} 
-            label="I hereby consent to the use of any information inserted into this form to be used by the GDPRobot system." />
+            label="I hereby consent to the use of any information inserted into this form to be used by the PrivacyPilot system." />
           </FormGroup>
           {error && <FormHelperText>Consent is required</FormHelperText>}
           {fileError && <FormHelperText>No file uploaded!</FormHelperText>}

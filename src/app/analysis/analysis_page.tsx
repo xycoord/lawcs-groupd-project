@@ -65,6 +65,8 @@ export default function AnalysisPage() {
       })
     }
     setAllClauses(Object.values(clauseData));
+
+    
     //makeInitialClauses()
     //console.log(clauseData)
   }, [clauseData])
@@ -86,15 +88,18 @@ export default function AnalysisPage() {
     }
   ]
 
-  useEffect(() => {
-    console.log("Updating selected clauses")
-     //Add clauses to body
-     //console.log(selectedClauses)
-     for (let i = 0; i < body.length; i++) {
+  const updateSelectedClauses = () =>{
+    for (let i = 0; i < body.length; i++) {
       allClauses.map((c: clause) => console.log(c))
 
       Object.values(body)[i].clauses = allClauses.flat().map((c: clause) => c.tags.includes(art_titles[i]) ? c.text : "").filter((c: string) => c !== "");
     }
+  }
+  useEffect(() => {
+    console.log("Updating selected clauses")
+     //Add clauses to body
+     //console.log(selectedClauses)
+    updateSelectedClauses()
   }, [allClauses])
 
   const onPromptSend = async () => {
@@ -194,6 +199,7 @@ export default function AnalysisPage() {
   }
 
   let onSelectArt = (art_title: string) => {
+    updateSelectedClauses()
     setSelectedArt(art_title)
     updateClauseCards(art_title)
   }
